@@ -43,13 +43,14 @@ namespace ModernFlyouts.Core.AppInformation
                 if (data.ProcessId == 0)
                     return null;
 
-                if (IsAppPackaged(data))
+                try
                 {
-                    return new SourceModernAppInfo(data);
+                    return IsAppPackaged(data) ? new SourceModernAppInfo(data) : new SourceDesktopAppInfo(data);
                 }
-                else
+                catch (InvalidOperationException)
                 {
-                    return new SourceDesktopAppInfo(data);
+
+                    return null;
                 }
             }
 

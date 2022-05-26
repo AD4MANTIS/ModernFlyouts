@@ -98,12 +98,14 @@ namespace ModernFlyouts.Controls
             ThumbnailImageBrush.BeginAnimation(Brush.OpacityProperty, null);
             TextBlockGrid.BeginAnimation(OpacityProperty, null);
             mediaArtistBlockTranslateTransform.BeginAnimation(TranslateTransform.YProperty, null);
+            mediaAlbumBlockTranslateTransform.BeginAnimation(TranslateTransform.YProperty, null);
             mediaTitleBlockTranslateTransform.BeginAnimation(TranslateTransform.YProperty, null);
 
             ThumbnailBackgroundBrush.Opacity = 0.0;
             ThumbnailImageBrush.Opacity = 0.0;
             TextBlockGrid.Opacity = 0.0;
             mediaArtistBlockTranslateTransform.Y = 0.0;
+            mediaAlbumBlockTranslateTransform.Y = 0.0;
             mediaTitleBlockTranslateTransform.Y = 0.0;
         }
 
@@ -146,9 +148,16 @@ namespace ModernFlyouts.Controls
             };
             mediaTitleBlockTranslateTransform.BeginAnimation(property, anim1);
 
-            var anim2 = new DoubleAnimationUsingKeyFrames()
+            var anim3 = new DoubleAnimationUsingKeyFrames()
             {
                 BeginTime = TimeSpan.FromMilliseconds(delay),
+                KeyFrames = anim1.KeyFrames
+            };
+            mediaAlbumBlockTranslateTransform.BeginAnimation(property, anim3);
+
+            var anim2 = new DoubleAnimationUsingKeyFrames()
+            {
+                BeginTime = TimeSpan.FromMilliseconds(delay * 2),
                 KeyFrames = anim1.KeyFrames
             };
             mediaArtistBlockTranslateTransform.BeginAnimation(property, anim2);

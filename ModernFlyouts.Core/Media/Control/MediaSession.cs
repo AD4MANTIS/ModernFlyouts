@@ -243,6 +243,14 @@ namespace ModernFlyouts.Core.Media.Control
             protected set => SetProperty(ref artist, value);
         }
 
+        private string album = string.Empty;
+
+        public string Album
+        {
+            get => album;
+            protected set => SetProperty(ref album, value);
+        }
+
         private ImageSource thumbnail;
 
         public ImageSource Thumbnail

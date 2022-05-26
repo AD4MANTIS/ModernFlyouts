@@ -168,8 +168,8 @@ namespace ModernFlyouts.Core.Interop
 
         private bool _hasNativeFlyoutCreated;
 
-        private WndProcHookManager hookManager;
-        private WinEventDelegate _procDelegate;
+        private readonly WndProcHookManager hookManager;
+        private readonly WinEventDelegate _procDelegate;
         private IntPtr HHookID = IntPtr.Zero;
 
         private DispatcherTimer rehooktimer;

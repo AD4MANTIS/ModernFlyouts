@@ -159,6 +159,7 @@ namespace ModernFlyouts.Core.Media.Control
                 {
                     Title = mediaInfo.Title;
                     Artist = mediaInfo.Artist;
+                    Album = mediaInfo.AlbumTitle;
                     if (currentTrackNumber != mediaInfo.TrackNumber)
                     {
                         TrackChangeDirection = (mediaInfo.TrackNumber - currentTrackNumber) switch

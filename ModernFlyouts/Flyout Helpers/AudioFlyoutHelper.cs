@@ -303,12 +303,22 @@ namespace ModernFlyouts
 
         private void SetupMediaSessionManagers()
         {
-            var npMediaSessionManager = new NowPlayingMediaSessionManager();
+            NowPlayingMediaSessionManager npMediaSessionManager = new();
             mediaSessionManagers.Add(npMediaSessionManager);
+            ITunesMediaSessionManager iTunesMediaSessionManager = new();
+            mediaSessionManagers.Add(iTunesMediaSessionManager);
 
-            AllMediaSessions.Add(new CollectionContainer { Collection = npMediaSessionManager.MediaSessions });
+            foreach (var mediaSessionCollection 
+                in mediaSessionManagers.Select(manager => new CollectionContainer
+                {
+                    Collection = manager.MediaSessions
+                }))
+            {
+                AllMediaSessions.Add(mediaSessionCollection);
+            }
 
             npMediaSessionManager.MediaSessionsChanged += MediaSessionManager_MediaSessionsChanged;
+            iTunesMediaSessionManager.MediaSessionsChanged += MediaSessionManager_MediaSessionsChanged;
         }
 
         private void MediaSessionManager_MediaSessionsChanged(object sender, EventArgs e)

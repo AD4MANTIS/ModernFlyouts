@@ -43,10 +43,11 @@
                 </Border.Background>
             </Border>
 
-            <Grid x:Name="TextBlockGrid" Grid.Column="1" Margin="0,35,0,0" Cursor="Hand"
+            <Grid x:Name="TextBlockGrid" Grid.Column="1" Margin="0,32,0,0" Cursor="Hand"
                   VerticalAlignment="Bottom"
                   input:InputHelper.IsTapEnabled="True" input:InputHelper.TappedCommand="{Binding ActivateMediaSourceCommand}">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
@@ -62,6 +63,16 @@
                 <TextBlock Grid.Row="1" Style="{DynamicResource CaptionTextBlockStyle}"
                            Margin="0,6,0,0"
                            Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
+                           Text="{Binding Album}" ToolTip="{Binding Album}"
+                           ToolTipService.IsEnabled="{Binding Album, Converter={StaticResource TextToTooltipEnabledConverter}}"
+                           TextWrapping="NoWrap" TextTrimming="CharacterEllipsis">
+                    <TextBlock.RenderTransform>
+                        <TranslateTransform x:Name="mediaAlbumBlockTranslateTransform" />
+                    </TextBlock.RenderTransform>
+                </TextBlock>
+                <TextBlock Grid.Row="2" Style="{DynamicResource CaptionTextBlockStyle}"
+                           Margin="0,3,0,0"
+                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
                            Text="{Binding Artist}" ToolTip="{Binding Artist}"
                            ToolTipService.IsEnabled="{Binding Artist, Converter={StaticResource TextToTooltipEnabledConverter}}"
                            TextWrapping="NoWrap" TextTrimming="CharacterEllipsis">
@@ -72,7 +83,7 @@
             </Grid>
 
             <Grid x:Name="ThumbnailGrid" x:FieldModifier="private" Grid.Column="2">
-                <Grid Height="64" Width="64" Margin="24,24,24,2" Cursor="Hand" VerticalAlignment="Top"
+                <Grid Height="88" Width="88" Margin="8,8,8,0" Cursor="Hand" VerticalAlignment="Top"
                       input:InputHelper.IsTapEnabled="True" input:InputHelper.TappedCommand="{Binding ActivateMediaSourceCommand}">
                     <Border CornerRadius="{DynamicResource FlyoutCornerRadius}" Background="#333333" />
                     <Border CornerRadius="{DynamicResource FlyoutCornerRadius}">
@@ -84,7 +95,7 @@
                 </Grid>
             </Grid>
 
-            <Grid x:Name="AppInfoPanel" Margin="0,24,0,0" Grid.RowSpan="2" Grid.Column="1"
+            <Grid x:Name="AppInfoPanel" Margin="0,8,0,0" Grid.RowSpan="2" Grid.Column="1"
                   VerticalAlignment="Top" Cursor="Hand"
                   input:InputHelper.IsTapEnabled="True" input:InputHelper.TappedCommand="{Binding ActivateMediaSourceCommand}">
                 <Grid.ColumnDefinitions>

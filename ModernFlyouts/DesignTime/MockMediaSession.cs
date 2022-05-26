@@ -11,6 +11,7 @@ namespace ModernFlyouts.DesignTime
     {
         public MockMediaSession()
         {
+            RaiseMediaPropertiesChanging();
             IsPlayEnabled = true;
             IsPauseEnabled = true;
             IsPlayOrPauseEnabled = true;
@@ -36,6 +37,8 @@ namespace ModernFlyouts.DesignTime
 
             Title = "This is a lengthy title of a songggggggggggggggggggggggggg";
             Artist = "Why not me?";
+            Album = "Best Songs";
+            RaiseMediaPropertiesChanged();
         }
 
         protected override void ChangeAutoRepeatMode()
