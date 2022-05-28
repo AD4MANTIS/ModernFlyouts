@@ -118,6 +118,16 @@ namespace ModernFlyouts
             OnEnabled();
         }
 
+        public void FinalClose()
+        {
+            foreach (var manager in mediaSessionManagers)
+            {
+                manager.OnDisabled();
+            }
+
+            ITunesService.Instance.Dispose();
+        }
+
         public override bool CanHandleNativeOnScreenFlyout(FlyoutTriggerData triggerData)
         {
             bool isMediaKey = triggerData.TriggerType == FlyoutTriggerType.Media;

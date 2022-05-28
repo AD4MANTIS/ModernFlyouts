@@ -27,8 +27,4 @@
     </COMReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\iTunesController\iTunesController\iTunesController.csproj" />
-  </ItemGroup>
-
 </Project>

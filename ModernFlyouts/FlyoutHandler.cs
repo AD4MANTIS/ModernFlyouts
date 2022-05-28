@@ -202,6 +202,11 @@ namespace ModernFlyouts
             airplaneModeWatcher.Start();
         }
 
+        public void FinalClose()
+        {
+            AudioFlyoutHelper.FinalClose();
+        }
+
         private void AirplaneModeWatcher_Changed(object sender, AirplaneModeChangedEventArgs e)
         {
             Application.Current.Dispatcher.Invoke(() =>
@@ -528,6 +533,7 @@ namespace ModernFlyouts
         public static void SafelyExitApplication()
         {
             NativeFlyoutHandler.Instance.ShowNativeFlyout();
+            Instance.FinalClose();
             Environment.Exit(0);
         }
 

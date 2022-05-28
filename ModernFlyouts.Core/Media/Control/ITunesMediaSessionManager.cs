@@ -1,13 +1,8 @@
 ﻿using ModernFlyouts.Core.Threading;
-
-using Schober.Felix.ITunes.Controller;
-
+using ModernFlyouts.Core.Utilities;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Threading;
-using Windows.ApplicationModel.Core;
 
 namespace ModernFlyouts.Core.Media.Control
 {
@@ -31,23 +26,19 @@ namespace ModernFlyouts.Core.Media.Control
             };
         }
 
-        ~ITunesMediaSessionManager()
-        {
-            OnDisabled();
-        }
-
         public override void OnEnabled()
         {
             ITunesService.Instance.AppStarted += ITunes_AppStarted;
+            ITunesService.Instance.AppClosing += ITunes_AppClosing;
             timer.Start();
         }
 
         private async void ITunes_AppStarted()
         {
-            ITunesService.Instance.App.OnAboutToPromptUserToQuitEvent += App_OnAboutToPromptUserToQuitEvent;
             await LoadSessions();
         }
-        private async void App_OnAboutToPromptUserToQuitEvent()
+
+        private async void ITunes_AppClosing()
         {
             var p = ITunesService.Instance.ITunesProcess;
             await CloseITunesServiceAsync();
@@ -63,6 +54,12 @@ namespace ModernFlyouts.Core.Media.Control
             foreach (var session in MediaSessions)
             {
                 session.Disconnect();
+            }
+
+            if (CurrentMediaSession != null)
+            {
+                CurrentMediaSession.IsCurrent = false;
+                CurrentMediaSession = null;
             }
 
             MediaSessions.Clear();
@@ -88,14 +85,13 @@ namespace ModernFlyouts.Core.Media.Control
         private async Task CloseITunesServiceAsync()
         {
             await ClearSessions();
-
-            ITunesService.Instance.Dispose();
         }
 
         public override async void OnDisabled()
         {
             timer.Stop();
             ITunesService.Instance.AppStarted -= ITunes_AppStarted;
+            ITunesService.Instance.AppClosing -= ITunes_AppClosing;
             await CloseITunesServiceAsync();
         }
     }

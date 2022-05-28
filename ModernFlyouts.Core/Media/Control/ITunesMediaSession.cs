@@ -3,7 +3,7 @@
 using iTunesLib;
 using ModernFlyouts.Core.AppInformation;
 using ModernFlyouts.Core.Helpers;
-using Schober.Felix.ITunes.Controller;
+using ModernFlyouts.Core.Utilities;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -109,7 +109,7 @@ namespace ModernFlyouts.Core.Media.Control
 
         private void UpdatePlaybackInfo()
         {
-            IsPlaying = ITunesService.IsPlaying;
+            IsPlaying = ITunesService.App?.PlayerState == ITPlayerState.ITPlayerStatePlaying;
 
             var playlist    = ITunesService.App?.CurrentPlaylist;
             IsShuffleActive = playlist?.Shuffle ?? false;
@@ -146,7 +146,7 @@ namespace ModernFlyouts.Core.Media.Control
 
         private async void UpdateSessionInfo()
         {
-            if (!ITunesService.IsActive)
+            if (ITunesService.App == null)
                 return;
 
             var newTrack = ITunesService.App?.CurrentTrack;
@@ -176,13 +176,16 @@ namespace ModernFlyouts.Core.Media.Control
                 //currentTrackNumber = mediaInfo.TrackNumber;
             }
 
-            var playbackState = ITunesService.GetPlayerButtonsState();
-            
-            IsPlayEnabled             = playbackState?.playPauseStopState == ITPlayButtonState.ITPlayButtonStatePlayEnabled;
-            IsPauseEnabled            = playbackState?.playPauseStopState == ITPlayButtonState.ITPlayButtonStatePauseEnabled;
+            bool previousEnabled = false;
+            bool nextEnabled = false;
+            ITPlayButtonState playPauseStopState = ITPlayButtonState.ITPlayButtonStatePlayEnabled;
+            ITunesService.App?.GetPlayerButtonsState(out previousEnabled, out playPauseStopState, out nextEnabled);
+
+            IsPlayEnabled             = playPauseStopState == ITPlayButtonState.ITPlayButtonStatePlayEnabled;
+            IsPauseEnabled            = playPauseStopState == ITPlayButtonState.ITPlayButtonStatePauseEnabled;
             IsPlayOrPauseEnabled      = IsPlayEnabled || IsPauseEnabled;
-            IsPreviousEnabled         = playbackState?.previousEnabled ?? true;
-            IsNextEnabled             = playbackState?.nextEnabled ?? true;
+            IsPreviousEnabled         = previousEnabled;
+            IsNextEnabled             = nextEnabled;
             IsShuffleEnabled          = mediaInfo != null;
             IsRepeatEnabled           = mediaInfo != null;
             IsStopEnabled             = mediaInfo != null;
@@ -196,7 +199,7 @@ namespace ModernFlyouts.Core.Media.Control
 
             if (trackChanged)
             {
-                string? path = ITunesService.GetCurrenTrack()?.GetPathToTrackArtwork();
+                string? path = ITunesService.App?.CurrentTrack.GetPathToTrackArtwork();
                 Thumbnail = !string.IsNullOrEmpty(path)
                     ? await GetThumbnailImageSourceAsync(File.OpenRead(path).AsRandomAccessStream())
                     : null;
@@ -237,15 +240,15 @@ namespace ModernFlyouts.Core.Media.Control
 
         #region Media Controlling
 
-        protected override void PreviousTrack() => ITunesService.PreviousTrack();
+        protected override void PreviousTrack() => ITunesService.App?.PreviousTrack();
 
-        protected override void NextTrack() => ITunesService.SkipTrack();
+        protected override void NextTrack() => ITunesService.App?.NextTrack();
 
-        protected override void Pause() => ITunesService.Pause();
+        protected override void Pause() => ITunesService.App?.Pause();
 
-        protected override void Play() => ITunesService.Play();
+        protected override void Play() => ITunesService.App?.Play();
 
-        protected override void Stop() => ITunesService.Stop();
+        protected override void Stop() => ITunesService.App?.Stop();
 
         protected override void PlaybackPositionChanged(TimeSpan playbackPosition)
         {

@@ -52,6 +52,7 @@
   <PropertyGroup>
     <AppxBundle>Always</AppxBundle>
     <PackageCertificateKeyFile>ModernFlyouts.Package_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>86F35DA9BF3D318AF130929748CEE203A7F179C2</PackageCertificateThumbprint>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
