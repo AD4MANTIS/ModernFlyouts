@@ -63,21 +63,22 @@
                 <TextBlock Grid.Row="1" Style="{DynamicResource CaptionTextBlockStyle}"
                            Margin="0,6,0,0"
                            Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
-                           Text="{Binding Album}" ToolTip="{Binding Album}"
-                           ToolTipService.IsEnabled="{Binding Album, Converter={StaticResource TextToTooltipEnabledConverter}}"
-                           TextWrapping="NoWrap" TextTrimming="CharacterEllipsis">
-                    <TextBlock.RenderTransform>
-                        <TranslateTransform x:Name="mediaAlbumBlockTranslateTransform" />
-                    </TextBlock.RenderTransform>
-                </TextBlock>
-                <TextBlock Grid.Row="2" Style="{DynamicResource CaptionTextBlockStyle}"
-                           Margin="0,3,0,0"
-                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
                            Text="{Binding Artist}" ToolTip="{Binding Artist}"
                            ToolTipService.IsEnabled="{Binding Artist, Converter={StaticResource TextToTooltipEnabledConverter}}"
                            TextWrapping="NoWrap" TextTrimming="CharacterEllipsis">
                     <TextBlock.RenderTransform>
                         <TranslateTransform x:Name="mediaArtistBlockTranslateTransform" />
+                    </TextBlock.RenderTransform>
+                </TextBlock>
+                <TextBlock Grid.Row="2" Style="{DynamicResource CaptionTextBlockStyle}"
+                           Margin="0,3,0,0"
+                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
+                           Text="{Binding Album}" ToolTip="{Binding Album}"
+                           ToolTipService.IsEnabled="{Binding Album, Converter={StaticResource TextToTooltipEnabledConverter}}"
+                           Visibility="{Binding Album, Converter={StaticResource StringToVisibilityConverter}}"
+                           TextWrapping="NoWrap" TextTrimming="CharacterEllipsis">
+                    <TextBlock.RenderTransform>
+                        <TranslateTransform x:Name="mediaAlbumBlockTranslateTransform" />
                     </TextBlock.RenderTransform>
                 </TextBlock>
             </Grid>

@@ -36,6 +36,7 @@
             <converters:TextToTooltipEnabledConverter x:Key="TextToTooltipEnabledConverter" />
             <converters:ScrollButtonVisibilityConverter x:Key="ScrollButtonVisibilityConverter" />
             <converters:EnumToLocalizedStringConverter x:Key="EnumToLocalizedStringConverter" />
+            <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
             <converters:InvertBooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" />
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
